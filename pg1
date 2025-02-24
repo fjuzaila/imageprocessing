@@ -1,0 +1,26 @@
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+img = cv2.imread(r'c:/Users/SAHYADRI/Pictures/Saved Pictures/bird-1045954_640.jpg')
+img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+X, Y, D = img_rgb.shape
+div1 = X // 2
+div2 = Y // 2
+top_left = img_rgb[:div1, :div2]
+top_right = img_rgb[:div1, div2:]
+bottom_left = img_rgb[div1:, :div2]
+bottom_right = img_rgb[div1:, div2:]
+fig, axs = plt.subplots(2, 2, figsize=(10, 10))
+axs[0, 0].imshow(top_left)
+axs[0, 0].set_title("Top Left")
+axs[0, 0].axis('on')
+axs[0, 1].imshow(top_right)
+axs[0, 1].set_title("Top Right")
+axs[0, 1].axis('on')
+axs[1, 0].imshow(bottom_left)
+axs[1, 0].set_title("Bottom Left")
+axs[1, 0].axis('on')
+axs[1, 1].imshow(bottom_right)
+axs[1, 1].set_title("Bottom Right")
+axs[1, 1].axis('on')
+plt.show()
