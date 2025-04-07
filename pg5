@@ -1,0 +1,39 @@
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Load the image in grayscale
+image = cv2.imread(r'c:\Users\Sahyadri\Pictures\Saved Pictures\download.png', cv2.IMREAD_GRAYSCALE)
+
+# Check if the image was loaded successfully
+if image is None:
+    raise FileNotFoundError("The image file 'download.png' was not found.")
+
+# Apply binary thresholding
+_, binary_image = cv2.threshold(image, 127, 255, cv2.THRESH_BINARY)
+
+# Create a structuring element for morphological operations
+struct_elem = np.ones((3, 3), np.uint8)  # Corrected the shape of the structuring element
+
+# Perform erosion and dilation
+eroded_image = cv2.erode(binary_image, struct_elem)
+dilated_image = cv2.dilate(binary_image, struct_elem)  # Corrected the function name from 'dilated' to 'dilate'
+
+# Calculate the absolute difference
+eroded_diff = cv2.absdiff(eroded_image, binary_image)
+dilated_diff = cv2.absdiff(dilated_image, binary_image)
+
+# Prepare titles and images for plotting
+titles = ['Original Binary', 'Eroded', 'Dilated', 'Erosion Diff', 'Dilation Diff']
+images = [binary_image, eroded_image, dilated_image, eroded_diff, dilated_diff]
+
+# Plot the images
+plt.figure(figsize=(16, 6))
+for i, img in enumerate(images):
+    plt.subplot(2, 3, i + 1)
+    plt.imshow(img, cmap='gray')
+    plt.title(titles[i])
+    plt.axis('off')
+
+plt.tight_layout()  # Moved outside the loop to apply to the entire figure
+plt.show()  # Moved outside the loop to show all images at once
